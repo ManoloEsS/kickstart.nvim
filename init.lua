@@ -430,11 +430,11 @@ do
       comments = { italic = false }, -- Disable italics in comments
     },
   }
-
+  --
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'tokyonight-storm'
++  vim.cmd.colorscheme 'tokyonight-storm'
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
@@ -831,6 +831,7 @@ do
         go = true,
         javascript = true,
         typescript = true,
+        typescriptreact = true,
       }
       if enabled_filetypes[vim.bo[bufnr].filetype] then
         return { timeout_ms = 500 }
@@ -848,7 +849,9 @@ do
       -- python = { "isort", "black" },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
-      -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      typescript = { 'prettierd' },
+      typescriptreact = { 'prettierd' },
+      javascript = { 'prettierd' },
     },
   }
 
