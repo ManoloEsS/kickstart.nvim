@@ -4,7 +4,7 @@
 -- Options
 -- ============================================================
 
-vim.o.list = true
+vim.opt.list = true
 vim.opt.listchars = {
   tab = '│ ',
   trail = '·',
@@ -24,6 +24,8 @@ vim.o.backup = false
 vim.o.termguicolors = true
 vim.opt.isfname:append '@-@'
 vim.opt.autoread = true
+vim.opt.signcolumn = 'yes'
+vim.opt.updatetime = 50
 
 -- Add rounded borders to all floating windows (hover, signature help, diagnostics, etc.)
 vim.o.winborder = 'rounded'
@@ -67,13 +69,9 @@ vim.keymap.set('t', '<C-a>', '<C-\\><C-n>', { desc = '[E]xit terminal' })
 vim.keymap.set('n', '<leader>a', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gIc<Left><Left><Left><Left>]], { desc = '[A]ll in file' })
 
 -- Snippet navigation (blink.cmp)
-vim.keymap.set({ 'i', 's' }, '<C-.>', function()
-  require('blink.cmp').snippet_forward()
-end, { desc = 'Snippet forward' })
+vim.keymap.set({ 'i', 's' }, '<C-.>', function() require('blink.cmp').snippet_forward() end, { desc = 'Snippet forward' })
 
-vim.keymap.set({ 'i', 's' }, '<C-,>', function()
-  require('blink.cmp').snippet_backward()
-end, { desc = 'Snippet backward' })
+vim.keymap.set({ 'i', 's' }, '<C-,>', function() require('blink.cmp').snippet_backward() end, { desc = 'Snippet backward' })
 
 -- Equalize splits
 vim.keymap.set('n', '<leader>w', '<C-w>=', { desc = 'Make equal splits' })
@@ -110,12 +108,19 @@ vim.keymap.set('n', '<leader>rp', function()
   )
 end, { desc = 'Replace word under cursor in args' })
 
+-- Substitute (surround took over s prefix)
+vim.keymap.set({ 'n', 'v' }, 'ss', 's', { desc = 'Substitute' })
+
 -- ============================================================
 -- Go Autocommands
 -- ============================================================
 
 local go_group = vim.api.nvim_create_augroup('GoAutoImport', { clear = true })
 
+-- TODO: Fix "no code actions available" notification on InsertLeave and BufWritePre
+-- The notification appears when gopls has no imports to organize.
+-- Solution: Check for code actions first before calling vim.lsp.buf.code_action,
+-- or suppress the notification with a custom callback.
 vim.api.nvim_create_autocmd('BufWritePre', {
   group = go_group,
   pattern = '*.go',
@@ -151,6 +156,8 @@ vim.api.nvim_set_hl(0, 'PmenuSel', { bg = 'none', blend = 10 })
 -- ============================================================
 
 -- Re-apply tokyonight with transparency settings
+-- To revert back to tokyonight: uncomment below, comment out kanagawa setup in kanagawa.lua,
+-- and uncomment the tokyonight block in init.lua
 require('tokyonight').setup {
   transparent = true,
   styles = {
@@ -159,7 +166,7 @@ require('tokyonight').setup {
     sidebars = 'transparent',
   },
 }
-vim.cmd.colorscheme 'tokyonight'
+vim.cmd.colorscheme 'tokyonight-storm'
 
 -- NOTE: blink.cmp border overrides (menu = 'none', signature = 'none')
 -- are now set directly in init.lua to avoid double-setup issues.
