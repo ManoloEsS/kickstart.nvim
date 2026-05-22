@@ -1,21 +1,19 @@
 -- snacks.nvim: UI utilities suite
 
-local function gh(repo)
-  return 'https://github.com/' .. repo
-end
+local function gh(repo) return 'https://github.com/' .. repo end
 
 vim.pack.add { gh 'folke/snacks.nvim' }
 
 require('snacks').setup {
-  bigfile = { enabled = false },
+  bigfile = { enabled = true },
   dashboard = { enabled = false },
   explorer = {
     enabled = true,
     replace_netrw = true,
   },
-  indent = { enabled = false },
-  input = { enabled = false },
-  notifier = { enabled = false },
+  indent = { enabled = true },
+  input = { enabled = true },
+  notifier = { enabled = true },
   picker = {
     enabled = false,
     sources = {
@@ -42,7 +40,7 @@ require('snacks').setup {
     },
   },
   quickfile = { enabled = true },
-  scope = { enabled = false },
+  scope = { enabled = true },
   scroll = { enabled = true },
   statuscolumn = { enabled = false },
   words = { enabled = true },
@@ -52,75 +50,82 @@ require('snacks').setup {
 }
 
 -- ============================================================
+-- Which-key groups
+-- ============================================================
+
+require('which-key').add {
+  { '<leader>u', group = 'Undo/Toggle' },
+  { '<leader>g', group = 'Git', mode = { 'n', 'v' } },
+  { '<leader>c', group = 'Code' },
+}
+
+-- ============================================================
 -- Keymaps
 -- ============================================================
 
 -- Explorer
-vim.keymap.set('n', '<leader>e', function()
-  Snacks.explorer()
-end, { desc = 'File Explorer' })
+vim.keymap.set('n', '<leader>e', function() Snacks.explorer() end, { desc = 'File Explorer' })
 
 -- Git
-vim.keymap.set('n', '<leader>gg', function()
-  Snacks.lazygit()
-end, { desc = 'Lazygit' })
+vim.keymap.set('n', '<leader>gg', function() Snacks.lazygit() end, { desc = 'Lazygit' })
 
-vim.keymap.set({ 'n', 'v' }, '<leader>gB', function()
-  Snacks.gitbrowse()
-end, { desc = 'Git Browse' })
+vim.keymap.set({ 'n', 'v' }, '<leader>gB', function() Snacks.gitbrowse() end, { desc = 'Git Browse' })
 
--- Undo
-vim.keymap.set('n', '<leader>su', function()
-  Snacks.picker.undo()
-end, { desc = 'Undo History' })
+-- Disabled: snacks.picker is disabled; undo via this keymap would error at runtime
+-- vim.keymap.set('n', '<leader>su', function() Snacks.picker.undo() end, { desc = 'Undo History' })
 
 -- File rename
-vim.keymap.set('n', '<leader>cR', function()
-  Snacks.rename.rename_file()
-end, { desc = 'Rename File' })
+vim.keymap.set('n', '<leader>cR', function() Snacks.rename.rename_file() end, { desc = 'Rename File' })
 
 -- Neovim News
-vim.keymap.set('n', '<leader>N', function()
-  Snacks.win {
-    file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1],
-    width = 0.6,
-    height = 0.6,
-    wo = {
-      spell = false,
-      wrap = false,
-      signcolumn = 'yes',
-      statuscolumn = ' ',
-      conceallevel = 3,
-    },
-  }
-end, { desc = 'Neovim News' })
+vim.keymap.set(
+  'n',
+  '<leader>N',
+  function()
+    Snacks.win {
+      file = vim.api.nvim_get_runtime_file('doc/news.txt', false)[1],
+      width = 0.6,
+      height = 0.6,
+      wo = {
+        spell = false,
+        wrap = false,
+        signcolumn = 'yes',
+        statuscolumn = ' ',
+        conceallevel = 3,
+      },
+    }
+  end,
+  { desc = 'Neovim News' }
+)
 
 -- Words navigation
-vim.keymap.set({ 'n', 't' }, ']]', function()
-  Snacks.words.jump(vim.v.count1)
-end, { desc = 'Next Reference' })
+vim.keymap.set({ 'n', 't' }, ']]', function() Snacks.words.jump(vim.v.count1) end, { desc = 'Next Reference' })
 
-vim.keymap.set({ 'n', 't' }, '[[', function()
-  Snacks.words.jump(-vim.v.count1)
-end, { desc = 'Prev Reference' })
+vim.keymap.set({ 'n', 't' }, '[[', function() Snacks.words.jump(-vim.v.count1) end, { desc = 'Prev Reference' })
+
+-- Scope text objects (inner/around)
+vim.keymap.set({ 'x', 'o' }, 'ip', '<Plug>(snacks_scope_inner)', { desc = 'Inner Scope' })
+vim.keymap.set({ 'x', 'o' }, 'ap', '<Plug>(snacks_scope_outer)', { desc = 'Around Scope' })
 
 -- ============================================================
 -- Toggles (set up on VeryLazy)
+-- Disabled: toggle keymaps were non-functional, individual toggles available via :Snacks commands
 -- ============================================================
 
-vim.api.nvim_create_autocmd('User', {
-  pattern = 'VeryLazy',
-  callback = function()
-    Snacks.toggle.option('spell', { name = 'Spelling' }):map('<leader>us')
-    Snacks.toggle.option('wrap', { name = 'Wrap' }):map('<leader>uw')
-    Snacks.toggle.option('relativenumber', { name = 'Relative Number' }):map('<leader>uL')
-    Snacks.toggle.diagnostics():map('<leader>ud')
-    Snacks.toggle.line_number():map('<leader>ul')
-    Snacks.toggle.option('conceallevel', { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map('<leader>uc')
-    Snacks.toggle.treesitter():map('<leader>uT')
-    Snacks.toggle.option('background', { off = 'light', on = 'dark', name = 'Dark Background' }):map('<leader>ub')
-    Snacks.toggle.inlay_hints():map('<leader>uh')
-    Snacks.toggle.indent():map('<leader>ug')
-    Snacks.toggle.dim():map('<leader>uD')
-  end,
-})
+-- vim.api.nvim_create_autocmd('User', {
+--   pattern = 'VeryLazy',
+--   callback = function()
+--     Snacks.toggle.option('spell', { name = 'Spelling' }):map '<leader>us'
+--     Snacks.toggle.option('wrap', { name = 'Wrap' }):map '<leader>uw'
+--     Snacks.toggle.option('relativenumber', { name = 'Relative Number' }):map '<leader>uL'
+--     Snacks.toggle.diagnostics():map '<leader>ud'
+--     Snacks.toggle.line_number():map '<leader>ul'
+--     Snacks.toggle.option('conceallevel', { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map '<leader>uc'
+--     Snacks.toggle.treesitter():map '<leader>uT'
+--     Snacks.toggle.option('background', { off = 'light', on = 'dark', name = 'Dark Background' }):map '<leader>ub'
+--     -- Disabled: conflicts with <leader>th inlay hints toggle in init.lua LspAttach (line 679)
+--     -- Snacks.toggle.inlay_hints():map '<leader>uh'
+--     Snacks.toggle.indent():map '<leader>ug'
+--     Snacks.toggle.dim():map '<leader>uD'
+--   end,
+-- })

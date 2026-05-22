@@ -1,0 +1,26 @@
+-- local function gh(repo) return 'https://github.com/' .. repo end
+-- vim.pack.add { gh 'rebelot/kanagawa.nvim' }
+-- require('kanagawa').setup {
+--   transparent = true,
+--   commentStyle = { italic = false },
+--   colors = {
+--     theme = {
+--       all = {
+--         ui = {
+--           bg_gutter = 'none',
+--         },
+--       },
+--     },
+--   },
+--   overrides = function(colors)
+--     return {
+--       NormalFloat = { bg = 'none' },
+--       FloatBorder = { bg = 'none' },
+--       FloatTitle = { bg = 'none' },
+--       NormalDark = { bg = 'none' },
+--       NormalSide = { bg = 'none' },
+--     }
+--   end,
+-- }
+-- vim.cmd.colorscheme 'kanagawa'
+
