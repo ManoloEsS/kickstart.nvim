@@ -47,6 +47,10 @@ require('blink.cmp').setup {
     -- See `:help blink-cmp-config-keymap` for defining your own keymap
     preset = 'default',
 
+    -- Disable default Tab snippet navigation (using C-, / C-. instead)
+    ['<Tab>'] = false,
+    ['<S-Tab>'] = false,
+
     -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
     --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
   },
