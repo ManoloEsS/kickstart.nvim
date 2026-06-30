@@ -1,0 +1,29 @@
+-- local function gh(repo) return 'https://github.com/' .. repo end
+--
+-- vim.pack.add { gh 'akinsho/bufferline.nvim' }
+--
+-- require('bufferline').setup {
+--   options = {
+--     mode = 'buffers',
+--     diagnostics = 'nvim_lsp',
+--     separator_style = 'thin',
+--     always_show_bufferline = false,
+--     offsets = {
+--       {
+--         filetype = 'snacks_explorer',
+--         text = 'Explorer',
+--         text_align = 'center',
+--         separator = true,
+--       },
+--     },
+--   },
+-- }
+--
+-- vim.keymap.set('n', 'H', '<cmd>BufferLineCyclePrev<cr>', { desc = 'Prev buffer' })
+-- vim.keymap.set('n', 'L', '<cmd>BufferLineCycleNext<cr>', { desc = 'Next buffer' })
+-- vim.keymap.set('n', '<leader>vd', '<cmd>bdelete<cr>', { desc = '[V]uffer [D]elete' })
+-- vim.keymap.set('n', '<leader>vD', '<cmd>bdelete!<cr>', { desc = '[V]uffer [D]elete (force)' })
+-- vim.keymap.set('n', '<leader>vo', '<cmd>BufferLineCloseOthers<cr>', { desc = '[V]uffer delete [O]thers' })
+-- vim.keymap.set('n', '<leader>vp', '<cmd>BufferLineCyclePrev<cr>', { desc = '[V]uffer [P]rev' })
+-- vim.keymap.set('n', '<leader>vn', '<cmd>BufferLineCycleNext<cr>', { desc = '[V]uffer [N]ext' })
+
