@@ -627,7 +627,9 @@ do
 
   -- Useful status updates for LSP.
   vim.pack.add { gh 'j-hui/fidget.nvim' }
-  require('fidget').setup {}
+  require('fidget').setup {
+    notification = { enabled = false },
+  }
 
   --  This function gets run when an LSP attaches to a particular buffer.
   --    That is to say, every time a new file is opened that is associated with
@@ -818,6 +820,7 @@ do
       -- python = { "isort", "black" },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
+      go = { 'goimports' },
       typescript = { 'prettierd' },
       typescriptreact = { 'prettierd' },
       javascript = { 'prettierd' },
