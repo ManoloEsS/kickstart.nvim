@@ -11,6 +11,7 @@ vim.pack.add {
 
 require('neo-tree').setup {
   filesystem = {
+    hijack_netrw_behavior = 'disabled',
     window = {
       mappings = {
         ['\\'] = 'close_window',

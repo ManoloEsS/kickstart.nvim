@@ -30,6 +30,9 @@ vim.opt.updatetime = 50
 -- Add rounded borders to all floating windows (hover, signature help, diagnostics, etc.)
 vim.o.winborder = 'rounded'
 
+-- Associate .gotmpl files with the gotmpl filetype (for gopls)
+vim.filetype.add { extension = { gotmpl = 'gotmpl' } }
+
 -- ============================================================
 -- Keymaps
 -- ============================================================
@@ -115,34 +118,20 @@ vim.keymap.set({ 'n', 'v' }, 'ss', 's', { desc = 'Substitute' })
 -- Go Autocommands
 -- ============================================================
 
-local go_group = vim.api.nvim_create_augroup('GoAutoImport', { clear = true })
+-- Import organization handled by conform.nvim with goimports formatter on save.
 
--- TODO: Fix "no code actions available" notification on InsertLeave and BufWritePre
--- The notification appears when gopls has no imports to organize.
--- Solution: Check for code actions first before calling vim.lsp.buf.code_action,
--- or suppress the notification with a custom callback.
-vim.api.nvim_create_autocmd('BufWritePre', {
-  group = go_group,
-  pattern = '*.go',
-  callback = function()
-    vim.lsp.buf.format { async = false }
-    vim.lsp.buf.code_action {
-      context = { only = { 'source.organizeImports' } },
-      apply = true,
-    }
-  end,
-})
-
-vim.api.nvim_create_autocmd('InsertLeave', {
-  group = go_group,
-  pattern = '*.go',
-  callback = function()
-    vim.lsp.buf.code_action {
-      context = { only = { 'source.organizeImports' } },
-      apply = true,
-    }
-  end,
-})
+-- If you want organizeImports on InsertLeave, uncomment below with guard:
+-- local go_group = vim.api.nvim_create_augroup('GoAutoImport', { clear = true })
+-- vim.api.nvim_create_autocmd('InsertLeave', {
+--   group = go_group,
+--   pattern = '*.go',
+--   callback = function()
+--     local clients = vim.lsp.get_clients({ bufnr = 0 })
+--     if vim.iter(clients):any(function(c) return c:supports_method('textDocument/codeAction', 0) end) then
+--       vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' } }, apply = true }
+--     end
+--   end,
+-- })
 
 -- ============================================================
 -- Highlights
