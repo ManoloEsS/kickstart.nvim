@@ -746,15 +746,22 @@ do
   ---@type table<string, vim.lsp.Config>
   local servers = {
     -- clangd = {},
-    -- gopls = {},
-    -- pyright = {},
-    -- tsc = {},
     --
-    -- Some languages (like rust) have entire language plugins that can be useful:
-    --    https://github.com/mrcjkb/rustaceanvim
-    --
-    -- But for many setups, the LSP (`rust_analyzer`) will work just fine
-    -- rust_analyzer = {},
+     gopls = {},
+-    pyright = {},
++    ruff = {},
++    basedpyright = {
++      settings = {
++        basedpyright = {
++          analysis = {
++            typeCheckingMode = 'standard',
++            autoImportCompletions = true,
++            useLibraryCodeForTypes = true,
++          },
++        },
++      },
++    },
+    rust_analyzer = {},
 
     stylua = {}, -- Used to format Lua code
 
@@ -841,6 +848,7 @@ do
         lua = true,
         python = true,
         go = true,
+        rust = true,
         javascript = true,
         typescript = true,
         typescriptreact = true,
@@ -856,9 +864,9 @@ do
     },
     -- You can also specify external formatters in here.
     formatters_by_ft = {
-      -- rust = { 'rustfmt' },
+      rust = { 'rustfmt' },
       -- Conform can also run multiple formatters sequentially
-      -- python = { "isort", "black" },
+      python = { 'ruff_format' },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
       go = { 'goimports' },
