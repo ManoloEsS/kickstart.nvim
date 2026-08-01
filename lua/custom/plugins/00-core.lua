@@ -133,6 +133,14 @@ vim.keymap.set({ 'n', 'v' }, 'ss', 's', { desc = 'Substitute' })
 --   end,
 -- })
 
+-- Auto-fix Ruff import sorting on save
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.py',
+  callback = function()
+    vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+  end,
+})
+
 -- ============================================================
 -- Highlights
 -- ============================================================

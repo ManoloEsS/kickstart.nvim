@@ -706,7 +706,18 @@ do
   local servers = {
     -- clangd = {},
     gopls = {},
-    pyright = {},
+    ruff = {},
+    basedpyright = {
+      settings = {
+        basedpyright = {
+          analysis = {
+            typeCheckingMode = 'standard',
+            autoImportCompletions = true,
+            useLibraryCodeForTypes = true,
+          },
+        },
+      },
+    },
     -- rust_analyzer = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -800,6 +811,7 @@ do
         lua = true,
         python = true,
         go = true,
+        rust = true,
         javascript = true,
         typescript = true,
         typescriptreact = true,
@@ -815,9 +827,9 @@ do
     },
     -- You can also specify external formatters in here.
     formatters_by_ft = {
-      -- rust = { 'rustfmt' },
+      rust = { 'rustfmt' },
       -- Conform can also run multiple formatters sequentially
-      -- python = { "isort", "black" },
+      python = { 'ruff_format' },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
       go = { 'goimports' },
