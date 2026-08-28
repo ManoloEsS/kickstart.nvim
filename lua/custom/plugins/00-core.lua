@@ -165,5 +165,12 @@ require('tokyonight').setup {
 }
 vim.cmd.colorscheme 'tokyonight-storm'
 
+-- Make native LSP inlay hints transparent without changing their text styling.
+local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = 'LspInlayHint', link = false })
+if ok then
+  hl.bg = nil
+  vim.api.nvim_set_hl(0, 'LspInlayHint', hl)
+end
+
 -- NOTE: blink.cmp border overrides (menu = 'none', signature = 'none')
 -- are now set directly in init.lua to avoid double-setup issues.
