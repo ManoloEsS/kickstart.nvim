@@ -822,7 +822,8 @@ do
   -- You can press `g?` for help in this menu.
   local ensure_installed = vim.tbl_keys(servers or {})
   vim.list_extend(ensure_installed, {
-    -- You can add other tools here that you want Mason to install
+    'markdownlint-cli2',
+    'prettier',
   })
 
   require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -846,7 +847,8 @@ do
       -- You can specify filetypes to autoformat on save here:
       local enabled_filetypes = {
         lua = true,
-        python = true,
+        markdown = true,
+         python = true,
         go = true,
         rust = true,
         javascript = true,
@@ -865,7 +867,8 @@ do
     -- You can also specify external formatters in here.
     formatters_by_ft = {
       rust = { 'rustfmt' },
-      -- Conform can also run multiple formatters sequentially
+      markdown = { 'prettier', 'markdownlint-cli2' },
+       -- Conform can also run multiple formatters sequentially
       python = { 'ruff_format' },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
@@ -873,6 +876,11 @@ do
       typescript = { 'prettierd' },
       typescriptreact = { 'prettierd' },
       javascript = { 'prettierd' },
+    },
+    formatters = {
+      prettier = {
+        prepend_args = { '--prose-wrap=always' },
+      },
     },
   }
 
