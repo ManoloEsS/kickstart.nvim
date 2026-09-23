@@ -448,7 +448,7 @@ do
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-+  vim.cmd.colorscheme 'tokyonight-storm'
+  vim.cmd.colorscheme 'tokyonight-storm'
 
   -- [[ mini.nvim ]]
   --  A collection of various small independent plugins/modules
@@ -668,9 +668,7 @@ do
 
   -- Useful status updates for LSP.
   vim.pack.add { gh 'j-hui/fidget.nvim' }
-  require('fidget').setup {
-    notification = { enabled = false },
-  }
+  require('fidget').setup {}
 
   --  This function gets run when an LSP attaches to a particular buffer.
   --    That is to say, every time a new file is opened that is associated with
@@ -747,20 +745,19 @@ do
   local servers = {
     -- clangd = {},
     --
-     gopls = {},
--    pyright = {},
-+    ruff = {},
-+    basedpyright = {
-+      settings = {
-+        basedpyright = {
-+          analysis = {
-+            typeCheckingMode = 'standard',
-+            autoImportCompletions = true,
-+            useLibraryCodeForTypes = true,
-+          },
-+        },
-+      },
-+    },
+    gopls = {},
+    ruff = {},
+    basedpyright = {
+      settings = {
+        basedpyright = {
+          analysis = {
+            typeCheckingMode = 'standard',
+            autoImportCompletions = true,
+            useLibraryCodeForTypes = true,
+          },
+        },
+      },
+    },
     rust_analyzer = {},
 
     stylua = {}, -- Used to format Lua code
@@ -848,7 +845,7 @@ do
       local enabled_filetypes = {
         lua = true,
         markdown = true,
-         python = true,
+        python = true,
         go = true,
         rust = true,
         javascript = true,
@@ -868,7 +865,7 @@ do
     formatters_by_ft = {
       rust = { 'rustfmt' },
       markdown = { 'prettier', 'markdownlint-cli2' },
-       -- Conform can also run multiple formatters sequentially
+      -- Conform can also run multiple formatters sequentially
       python = { 'ruff_format' },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
@@ -981,7 +978,8 @@ do
   require 'kickstart.plugins.lint'
   require 'kickstart.plugins.autopairs'
   require 'kickstart.plugins.neo-tree'
-  require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
+  -- NOTE: `kickstart.plugins.gitsigns` was removed upstream (merged into Section 4 above).
+  -- Gitsigns recommended keymaps are already configured in the `on_attach` in Section 4.
 
   -- NOTE: You can add your own plugins, configuration, etc. in `lua/custom/plugins/*.lua`.
   --
@@ -995,7 +993,7 @@ do
   -- If separate modules need a specific order, require them explicitly instead:
   -- require 'custom.plugins.colorscheme'
   -- require 'custom.plugins.ui'
-  require 'custom.plugins.git'
+  -- NOTE: `custom.plugins.git` does not exist (no lua/custom/plugins/git.lua), so it is disabled.
 end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
