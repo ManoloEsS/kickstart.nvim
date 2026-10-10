@@ -47,6 +47,9 @@ require('blink.cmp').setup {
     -- See `:help blink-cmp-config-keymap` for defining your own keymap
     preset = 'default',
 
+    -- Alternate trigger when Ctrl-Space is captured by Herdr or tmux.
+    ['<M-Space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+
     -- Disable default Tab snippet navigation (using C-, / C-. instead)
     ['<Tab>'] = false,
     ['<S-Tab>'] = false,
